@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday!</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #ffcce6; /* Fallback if background image doesn't load */
+        background-image: url("YOUR-BACKGROUND-PNG-HERE"); /* Replace with your background PNG path */
+        background-size: cover;
+        background-position: center;
+        font-family: "Arial", sans-serif;
+        overflow: hidden;
+      }
+
+      h1 {
+        color: #000000;
+        font-size: 5rem;
+        text-align: center;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        animation: pulse 1.5s infinite alternate;
+        position: relative;
+        z-index: 10;
+      }
+
+      @keyframes pulse {
+        from {
+          transform: scale(1);
+        }
+        to {
+          transform: scale(1.05);
+          color: #e80707;
+        }
+      }
+
+      .floating-image {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        pointer-events: none;
+      }
+
+      .floating-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>HAPPY BIRTHDAY TO YOU</h1>
+
+    <!-- Floating images will be added by JavaScript -->
+
+    <script>
+      // Array to hold our flying images
+      const flyingImages = [];
+
+      // Function to create a new flying image
+      function createFlyingImage(src) {
+        const imgContainer = document.createElement("div");
+        imgContainer.className = "floating-image";
+
+        const img = document.createElement("img");
+        img.src = src;
+        img.alt = "Birthday decoration flying";
+
+        imgContainer.appendChild(img);
+        document.body.appendChild(imgContainer);
+
+        // Set random initial position and velocity
+        const initialX = Math.random() * window.innerWidth;
+        const initialY = Math.random() * window.innerHeight;
+        const velocityX = (Math.random() - 0.1) * 7;
+        const velocityY = (Math.random() - 0.1) * 7;
+
+        flyingImages.push({
+          element: imgContainer,
+          x: initialX,
+          y: initialY,
+          vx: velocityX,
+          vy: velocityY,
+        });
+      }
+
+      // Initialize the flying images - replace these with your PNG paths
+      createFlyingImage("haha.png"); // Replace with first PNG path
+      createFlyingImage("haha2.png"); // Replace with second PNG path
+
+      // Animation loop
+      function animate() {
+        flyingImages.forEach((img) => {
+          // Update position
+          img.x += img.vx;
+          img.y += img.vy;
+
+          // Bounce off edges
+          if (img.x <= 0 || img.x >= window.innerWidth - 100) {
+            img.vx *= -1;
+          }
+          if (img.y <= 0 || img.y >= window.innerHeight - 100) {
+            img.vy *= -1;
+          }
+
+          // Apply position
+          img.element.style.left = img.x + "px";
+          img.element.style.top = img.y + "px";
+        });
+
+        requestAnimationFrame(animate);
+      }
+
+      // Start animation
+      animate();
+    </script>
+  </body>
+</html>
